@@ -12,7 +12,7 @@ public class MinecraftLauncherGUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Sigma Rebase Installer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
+        frame.setSize(400, 220);
 
         JPanel panel = new JPanel();
         frame.add(panel);
