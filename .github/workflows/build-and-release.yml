@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21'
-          distribution: 'adoptium'
+          distribution: 'adopt'
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
