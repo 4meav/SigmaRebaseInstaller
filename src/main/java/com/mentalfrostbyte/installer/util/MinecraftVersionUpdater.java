@@ -8,7 +8,7 @@ import java.nio.file.*;
 
 public class MinecraftVersionUpdater {
 
-    private static final String MINECRAFT_DIR = System.getProperty("user.home") + "/.minecraft";
+    private static final String MINECRAFT_DIR = getMinecraftDirectory();;
 
     public static void setupVersion(String jarUrl, String jsonUrl, String versionName, JProgressBar progressBar) {
         try {
@@ -31,6 +31,7 @@ public class MinecraftVersionUpdater {
     }
 
     private static void createMinecraftProfile(String versionName) {
+
         String profileJsonPath = MINECRAFT_DIR + "/launcher_profiles.json";
         File profileFile = new File(profileJsonPath);
 
@@ -59,6 +60,17 @@ public class MinecraftVersionUpdater {
             Files.write(profileFile.toPath(), profilesJson.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static String getMinecraftDirectory() {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            return System.getenv("APPDATA") + "\\.minecraft";
+        } else if (os.contains("mac")) {
+            return System.getProperty("user.home") + "/Library/Application Support/minecraft";
+        } else {
+            return System.getProperty("user.home") + "/.minecraft";
         }
     }
 }
