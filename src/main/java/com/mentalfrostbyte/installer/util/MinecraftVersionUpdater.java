@@ -40,6 +40,11 @@ public class MinecraftVersionUpdater {
                 profilesJson = new JSONObject(new String(Files.readAllBytes(profileFile.toPath())));
             }
 
+            if (profilesJson.has("profiles") && profilesJson.getJSONObject("profiles").has(versionName)) {
+                System.out.println("Profile already exists, skipping creation.");
+                return;
+            }
+
             JSONObject newProfile = new JSONObject();
             newProfile.put("name", versionName);
             newProfile.put("lastVersionId", versionName);
