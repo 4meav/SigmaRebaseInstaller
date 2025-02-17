@@ -5,13 +5,12 @@ import com.mentalfrostbyte.installer.util.MinecraftVersionUpdater;
 import org.json.JSONObject;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class MinecraftLauncherGUI {
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Minecraft Version Updater");
+        JFrame frame = new JFrame("Sigma Rebase Installer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
 
@@ -25,15 +24,15 @@ public class MinecraftLauncherGUI {
     private static void placeComponents(JPanel panel) {
         panel.setLayout(null);
 
-        JLabel label = new JLabel("Select Build Type:");
+        JLabel label = new JLabel("Select SigmaRebase Version:");
         label.setBounds(10, 20, 200, 25);
         panel.add(label);
 
-        JRadioButton nightlyButton = new JRadioButton("Nightly Build");
+        JRadioButton nightlyButton = new JRadioButton("Nightly Build (probably more stable)");
         nightlyButton.setBounds(10, 50, 150, 25);
         panel.add(nightlyButton);
 
-        JRadioButton releaseButton = new JRadioButton("Release Build");
+        JRadioButton releaseButton = new JRadioButton("Release Candidate (stale)");
         releaseButton.setBounds(10, 80, 150, 25);
         panel.add(releaseButton);
 
@@ -50,17 +49,15 @@ public class MinecraftLauncherGUI {
         progressBar.setStringPainted(true);
         panel.add(progressBar);
 
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean isNightly = nightlyButton.isSelected();
-                startButton.setEnabled(false);
-                downloadAndSetup(isNightly, progressBar);
-            }
+        startButton.addActionListener(e -> {
+            boolean isNightly = nightlyButton.isSelected();
+            startButton.setEnabled(false);
+            downloadAndSetup(isNightly, progressBar);
         });
     }
 
     private static void downloadAndSetup(boolean isNightly, JProgressBar progressBar) {
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 JSONObject releaseInfo = GitHubReleaseFetcher.fetchReleaseInfo(isNightly);
@@ -74,7 +71,8 @@ public class MinecraftLauncherGUI {
 
             @Override
             protected void done() {
-                JOptionPane.showMessageDialog(null, "Version setup complete!");
+                JOptionPane.showMessageDialog(null, "Installation complete!");
+                System.exit(0);
             }
         };
         worker.execute();
